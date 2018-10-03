@@ -39,6 +39,7 @@ func pdfMergeGCSPOSTHandler(w http.ResponseWriter, r *http.Request) {
 		error500Handler(w, r, fmt.Errorf("Error decoding FDF: %s", err))
 		return
 	}
+	fdfData = stripFDF(fdfData)
 
 	client, err := storage.NewClient(ctx)
 	if err != nil {

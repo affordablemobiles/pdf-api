@@ -37,6 +37,7 @@ func pdfMergePOSTHandler(w http.ResponseWriter, r *http.Request) {
 		error500Handler(w, r, fmt.Errorf("Error decoding FDF: %s", err))
 		return
 	}
+	fdfData = stripFDF(fdfData)
 
 	output := filebuffer.New([]byte{})
 	err = fdfMerge(bytes.NewReader(pdfData), bytes.NewReader(fdfData), output)
@@ -49,4 +50,21 @@ func pdfMergePOSTHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-type", "application/pdf")
 	w.WriteHeader(200)
 	w.Write(output.Bytes())
+}
+
+func stripFDF(data []byte) []byte {
+	if len(data) > 2 {
+		length := len(data)
+
+		if data[0] == []byte("'")[0] {
+			data = data[1:]
+			length = len(data)
+		}
+
+		if data[length-1] == []byte("'")[0] {
+			data = data[:length-1]
+		}
+	}
+
+	return data
 }
