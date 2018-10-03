@@ -44,6 +44,7 @@ func pdfMergePOSTHandler(w http.ResponseWriter, r *http.Request) {
 		error500Handler(w, r, fmt.Errorf("PDF/FDF Merge Failed: %s", err))
 		return
 	}
+	output.Seek(0, 0)
 
 	w.Header().Add("Content-type", "application/pdf")
 	w.WriteHeader(200)
