@@ -14,7 +14,7 @@ import (
 )
 
 func pdfMergeGCSGETHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-type", "text/html")
+	w.Header().Add("Content-type", "text/html; charset=utf-8")
 	w.WriteHeader(200)
 	w.Write([]byte("<form action=\"/pdf/api/v1/pdf-merge-from-gcs\" method=\"POST\" enctype=\"application/x-www-form-urlencoded\"><textarea name=\"fdf\"></textarea><input type=\"text\" name=\"pdf_filename\" /><input type=\"submit\" value=\"Submit\" />\r\n"))
 }
@@ -80,10 +80,11 @@ func pdfMergeGCSPOSTHandler(w http.ResponseWriter, r *http.Request) {
 	output.Seek(0, 0)
 
 	if base64Output != "" {
+		w.Header().Add("Content-type", "text/plain; charset=utf-8")
 		w.WriteHeader(200)
 		w.Write([]byte(base64.StdEncoding.EncodeToString(output.Bytes())))
 	} else {
-		w.Header().Add("Content-type", "application/pdf")
+		w.Header().Add("Content-type", "application/pdf; charset=utf-8")
 		w.WriteHeader(200)
 		w.Write(output.Bytes())
 	}

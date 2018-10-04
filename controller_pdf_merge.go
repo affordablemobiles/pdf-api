@@ -47,7 +47,7 @@ func pdfMergePOSTHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	output.Seek(0, 0)
 
-	w.Header().Add("Content-type", "application/pdf")
+	w.Header().Add("Content-type", "application/pdf; charset=utf-8")
 	w.WriteHeader(200)
 	w.Write(output.Bytes())
 }
