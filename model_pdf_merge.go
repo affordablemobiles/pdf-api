@@ -27,7 +27,7 @@ func fdfMerge(pdfInput io.ReadSeeker, fdfInput io.ReadSeeker, pdfOutput io.Write
 	}
 
 	// Flatten form.
-	fieldAppearance := annotator.FieldAppearance{OnlyIfMissing: false}
+	fieldAppearance := annotator.FieldAppearance{OnlyIfMissing: true, RegenerateTextFields: true}
 	err = pdfReader.FlattenFields(true, fieldAppearance)
 	if err != nil {
 		return fmt.Errorf("Flattening Fields: %s", err)
