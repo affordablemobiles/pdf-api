@@ -35,7 +35,8 @@ func fdfMerge(pdfInput io.ReadSeeker, fdfInput io.ReadSeeker, pdfOutput io.Write
 
 	// Write out.
 	pdfWriter := model.NewPdfWriter()
-	pdfWriter.SetVersion(pdfReader.PdfVersionInt())
+	pdfVersion := pdfReader.PdfVersion()
+	pdfWriter.SetVersion(pdfVersion.Major, pdfVersion.Minor)
 	pdfWriter.SetForms(nil)
 
 	for i, p := range pdfReader.PageList {
