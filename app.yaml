@@ -1,7 +1,6 @@
-runtime: go
-api_version: go1.9
+runtime: go113
 service: pdf-api
-threadsafe: true
+
 automatic_scaling:
     max_concurrent_requests: 80
     min_pending_latency: 100ms

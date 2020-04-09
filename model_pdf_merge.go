@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/unidoc/unidoc/pdf/annotator"
-	"github.com/unidoc/unidoc/pdf/fdf"
-	"github.com/unidoc/unidoc/pdf/model"
+	"github.com/unidoc/unipdf/v3/annotator"
+	"github.com/unidoc/unipdf/v3/fdf"
+	"github.com/unidoc/unipdf/v3/model"
 )
 
 func fdfMerge(pdfInput io.ReadSeeker, fdfInput io.ReadSeeker, pdfOutput io.WriteSeeker) error {

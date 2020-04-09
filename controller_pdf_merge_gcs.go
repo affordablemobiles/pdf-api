@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"cloud.google.com/go/storage"
+	glog "github.com/a1comms/go-gaelog/v2"
 	"github.com/mattetti/filebuffer"
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/file"
 )
 
 func pdfMergeGCSGETHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +20,7 @@ func pdfMergeGCSGETHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func pdfMergeGCSPOSTHandler(w http.ResponseWriter, r *http.Request) {
-	ctx := appengine.NewContext(r)
+	ctx := glog.GetContext(r)
 
 	pdfFilename := r.FormValue("pdf_filename")
 	if pdfFilename == "" {
@@ -48,8 +48,8 @@ func pdfMergeGCSPOSTHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer client.Close()
 
-	bucketName, err := file.DefaultBucketName(ctx)
-	if err != nil {
+	bucketName := os.Getenv("GCLOUD_STORAGE_BUCKET")
+	if bucketName == "" {
 		error500Handler(w, r, fmt.Errorf("Failed to get default GCS bucket name: %s", err))
 		return
 	}

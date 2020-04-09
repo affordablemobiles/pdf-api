@@ -3,14 +3,13 @@ package main
 import (
 	"net/http"
 
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/log"
+	glog "github.com/a1comms/go-gaelog/v2"
 )
 
 func error500Handler(w http.ResponseWriter, r *http.Request, err error) {
-	ctx := appengine.NewContext(r)
+	ctx := glog.GetContext(r)
 
-	log.Errorf(ctx, "%s", err)
+	glog.Errorf(ctx, nil, "%s", err)
 
 	http.Error(w, "Internal Server Error", 500)
 }
