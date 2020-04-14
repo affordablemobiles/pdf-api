@@ -32,6 +32,8 @@ github.com/a1comms/go-gaelog v0.0.0-20200303101340-c94cfa460ac6 h1:i9j2a6hb2f0WR
 github.com/a1comms/go-gaelog v0.0.0-20200303101340-c94cfa460ac6/go.mod h1:hOAorXtQb/EtIF21BxNnFO7kdFenesKhcAcCHdC8KD4=
 github.com/a1comms/go-gaelog/v2 v2.0.0 h1:jGLaGbQ0MJ/r6Nja/ADI9ugj3mUjCg273WYkisoFt3Y=
 github.com/a1comms/go-gaelog/v2 v2.0.0/go.mod h1:QKMHH3OaIaYwExMoigypXyubTe8qbRurNj/weQwQUPI=
+github.com/a1comms/unipdf/v3 v3.6.3 h1:zmroGz1pIHYpNiPg/5TBPAuAJ8hrCTgrD9zVrw5s5f4=
+github.com/a1comms/unipdf/v3 v3.6.3/go.mod h1:oB/vP2a5OJfA5Op0X26CFX1JC8yECO2w+f6pMO/zpoo=
 github.com/adrg/strutil v0.1.0/go.mod h1:pXRr2+IyX5AEPAF5icj/EeTaiflPSD2hvGjnguilZgE=
 github.com/adrg/sysfont v0.1.0/go.mod h1:DzISco90USPZJ+lmtpuz1SOTn1fih6YyB0KG2TEP/0U=
 github.com/adrg/xdg v0.2.1/go.mod h1:ZuOshBmzV4Ta+s23hdfFZnBsdzmoR3US0d7ErpqSbTQ=
@@ -114,8 +116,6 @@ github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXf
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
-github.com/unidoc/unipdf/v3 v3.6.1 h1:T9bb9NkFRuv3EKFranrgyCBS4sFV9LKc20UvuDJxhCU=
-github.com/unidoc/unipdf/v3 v3.6.1/go.mod h1:oB/vP2a5OJfA5Op0X26CFX1JC8yECO2w+f6pMO/zpoo=
 github.com/urfave/negroni v1.0.0 h1:kIimOitoypq34K7TG7DUaJ9kq/N4Ofuwi1sjz0KipXc=
 github.com/urfave/negroni v1.0.0/go.mod h1:Meg73S6kFm/4PpbYdq35yYWoCZ9mS/YSx+lKnmiohz4=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
