@@ -1,4 +1,7 @@
-runtime: go113
+#!/bin/bash
+
+cat > ./app.yaml <<EOF
+runtime: go116
 service: pdf-api
 
 automatic_scaling:
@@ -12,3 +15,8 @@ handlers:
 - url: /.*
   secure: always
   script: auto
+
+env_variables:
+  GCLOUD_STORAGE_BUCKET: '${PROJECT_ID}.appspot.com'
+
+EOF

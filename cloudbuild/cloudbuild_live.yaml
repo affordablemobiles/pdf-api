@@ -1,4 +1,9 @@
 steps:
 - name: "gcr.io/cloud-builders/gcloud"
+  entrypoint: "bash"
+  args: ["./cloudbuild/generate_app_yaml.sh"]
+  env:
+    - 'PROJECT_ID=$PROJECT_ID'
+- name: "gcr.io/cloud-builders/gcloud"
   args: ["app","deploy","--quiet","--project=$PROJECT_ID","--version=$COMMIT_SHA","app.yaml"]
   env: ['GOPATH=/workspace']
