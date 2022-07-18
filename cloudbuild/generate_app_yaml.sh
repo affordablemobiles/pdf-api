@@ -5,10 +5,7 @@ runtime: go116
 service: pdf-api
 
 automatic_scaling:
-    max_concurrent_requests: 80
-    min_pending_latency: 100ms
-    max_pending_latency: 200ms
-    target_throughput_utilization: 0.95
+    max_concurrent_requests: 35
 instance_class: F4
 
 handlers:
