@@ -1,15 +1,32 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
+
+	"cloud.google.com/go/errorreporting"
+
+	"contrib.go.opencensus.io/exporter/stackdriver"
+	"contrib.go.opencensus.io/exporter/stackdriver/propagation"
+	"go.opencensus.io/plugin/ochttp"
+	"go.opencensus.io/trace"
 )
 
 func main() {
+	exporter, err := stackdriver.NewExporter(stackdriver.Options{ProjectID: gae_project()})
+	if err != nil {
+		log.Fatal(err)
+	}
+	trace.RegisterExporter(exporter)
+	defer exporter.Flush()
+
+	trace.ApplyConfig(trace.Config{DefaultSampler: trace.AlwaysSample()})
+
 	r := mux.NewRouter()
 
 	// Frontend pages.
@@ -35,8 +52,41 @@ func main() {
 	//--
 	//-API
 
+	//---
+	// Error reporting...
+	//---
+	errorClient, err := errorreporting.NewClient(context.Background(), gae_project(), errorreporting.Config{
+		ServiceName:    gae_service(),
+		ServiceVersion: gae_version(),
+		OnError: func(err error) {
+			log.Printf("Could not log error: %v", err)
+		},
+	})
+	if err != nil {
+		log.Fatalf("%s", err)
+	}
+	defer errorClient.Close()
+
+	recover := negroni.NewRecovery()
+	recover.PrintStack = true
+	recover.LogStack = false
+	recover.PanicHandlerFunc = func(info *negroni.PanicInformation) {
+		errorClient.Report(errorreporting.Entry{
+			Req:   info.Request,
+			Error: info.RecoveredPanic.(error),
+			Stack: info.Stack,
+		})
+	}
+	recover.Formatter = &CustomPanicFormatter{}
+
 	// Handle all HTTP requests with our router.
-	http.Handle("/", r)
+	http.Handle("/", negroni.New(
+		recover,
+		negroni.Wrap(&ochttp.Handler{
+			Propagation: &propagation.HTTPFormat{},
+			Handler: r,
+}		),
+	))
 
 	// [START setting_port]
 	port := os.Getenv("PORT")
@@ -54,4 +104,22 @@ func main() {
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Permission Denied", 403)
+}
+
+type CustomPanicFormatter struct{}
+
+func (t *CustomPanicFormatter) FormatPanicError(w http.ResponseWriter, r *http.Request, infos *negroni.PanicInformation) {
+	http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+}
+
+func gae_project() string {
+	return os.Getenv("GOOGLE_CLOUD_PROJECT")
+}
+
+func gae_service() string {
+	return os.Getenv("GAE_SERVICE")
+}
+
+func gae_version() string {
+	return os.Getenv("GAE_VERSION")
 }
