@@ -117,9 +117,17 @@ func gae_project() string {
 }
 
 func gae_service() string {
-	return os.Getenv("GAE_SERVICE")
+	if svc := os.Getenv("GAE_SERVICE"); svc != "" {
+		return svc
+	} else {
+		return os.Getenv("K_SERVICE")
+	}
 }
 
 func gae_version() string {
-	return os.Getenv("GAE_VERSION")
+	if ver := os.Getenv("GAE_VERSION"); ver != "" {
+		return ver
+	} else {
+		return os.Getenv("K_REVISION")
+	}
 }
